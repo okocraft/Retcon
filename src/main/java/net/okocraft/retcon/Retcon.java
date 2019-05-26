@@ -22,10 +22,12 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 import lombok.val;
+
+import org.bukkit.plugin.java.JavaPlugin;
+
+import net.okocraft.retcon.command.CommandDispatcher;
 import net.okocraft.retcon.task.CountOnlineTask;
 import net.okocraft.retcon.task.GetTickPerSecondTask;
-import org.bukkit.plugin.java.JavaPlugin;
-import net.okocraft.retcon.command.CommandDispatcher;
 
 public class Retcon extends JavaPlugin  {
     /**
@@ -51,7 +53,6 @@ public class Retcon extends JavaPlugin  {
 
     @Override
     public void onEnable() {
-
         // Register command /retcon
         Objects.requireNonNull(
                 getServer().getPluginCommand("retcon")).setExecutor(new CommandDispatcher()
@@ -68,9 +69,13 @@ public class Retcon extends JavaPlugin  {
         // delay - Delay in server ticks before executing first repeat
         // period - Period in server ticks of the task
         //
+        // FIXME: This is *sync* scheduling, it must be asynchronous.
+        //        For your information: Asynchronous task can't access Bukkit API.
+        //
         scheduler.scheduleSyncRepeatingTask(plugin, new CountOnlineTask(),      10L, 20L);
         scheduler.scheduleSyncRepeatingTask(plugin, new GetTickPerSecondTask(), 10L, 20L);
 
+        // GO GO GO
         log.info("Retcon v." + version + " has been enabled.");
     }
 
