@@ -18,8 +18,11 @@
 
 package net.okocraft.retcon.listener;
 
+import java.net.InetSocketAddress;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
+import com.google.common.base.Strings;
 import lombok.val;
 
 import org.bukkit.event.EventHandler;
@@ -27,6 +30,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import net.okocraft.retcon.util.Configuration;
+import net.okocraft.retcon.util.Converter;
 import net.okocraft.retcon.util.FileUtil;
 
 public class PlayerCommandPreprocess implements Listener {
@@ -38,14 +42,29 @@ public class PlayerCommandPreprocess implements Listener {
 
     @EventHandler
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
-        val command = event.getMessage();
-        val time = LocalDateTime.now();
+        val time     = LocalDateTime.now();
 
-        event.getPlayer().sendMessage(String.format("[%s] %s", time, command));
+        val player   = event.getPlayer();
+        val name     = player.getName();
+        val locale   = player.getLocale();
 
-        FileUtil.appendText(
-                config.getCommandLog(),
-                String.format("[%s] %s" + System.getProperty("line.separator"), time, command)
+        val address  = Optional.ofNullable(event.getPlayer().getAddress())
+                .map(InetSocketAddress::toString)
+                .orElse("unknown");
+
+        val location = player.getLocation();
+        val command  = event.getMessage();
+
+        val log = String.format(
+                "[%s] %s %s %s %s %s" + System.getProperty("line.separator"),
+                time,
+                Strings.padEnd(name, 16, ' '),
+                locale,
+                Strings.padEnd(address, 22, ' '),
+                Converter.locationToString(location),
+                command
         );
+
+        FileUtil.appendText(config.getCommandLog(), log);
     }
 }
