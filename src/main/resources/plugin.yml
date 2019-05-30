@@ -1,21 +1,16 @@
-name: Retcon
-version: 0.0.1
-api-version: 1.13
+name: ${project.artifactId}
+version: ${project.version}
+api-version: "1.13"
 main: net.okocraft.retcon.Retcon
 author: akaregi
 commands:
-  box:
+  retcon:
     description: Base command for Retcon.
     usage: /<command> help
     permission: retcon.admin
     permission-message: '§cYou do not have permission <permission>'
 
 permissions:
-  retcon.*:
-    description: All permissions.
-    default: op
-    children:
-      box.admin: true
   retcon.admin:
     description: Retcon's administrative permission.
     default: op

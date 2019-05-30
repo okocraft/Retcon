@@ -1,0 +1,9 @@
+#
+# Retcon configuration
+# License: GPLv3
+#
+
+files:
+  command: "command.log"
+  online: "online.log"
+  tps: "tps.log"

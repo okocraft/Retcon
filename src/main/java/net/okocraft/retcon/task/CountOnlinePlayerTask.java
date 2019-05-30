@@ -18,9 +18,23 @@
 
 package net.okocraft.retcon.task;
 
-public class CountOnlineTask implements Runnable {
+import lombok.val;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
+
+public class CountOnlinePlayerTask extends BukkitRunnable {
+    private final Plugin plugin;
+
+    public CountOnlinePlayerTask(Plugin plugin) {
+        this.plugin = plugin;
+    }
+
     @Override
     public void run() {
+        val server = plugin.getServer();
 
+        int onlinePlayers = server.getOnlinePlayers().size();
+
+        plugin.getLogger().info("Current TPS: " + onlinePlayers);
     }
 }

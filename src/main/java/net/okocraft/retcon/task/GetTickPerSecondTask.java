@@ -18,9 +18,34 @@
 
 package net.okocraft.retcon.task;
 
-public class GetTickPerSecondTask implements Runnable {
+import lombok.val;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.Arrays;
+
+public class GetTickPerSecondTask extends BukkitRunnable {
+    private final Plugin plugin;
+
+    public GetTickPerSecondTask(Plugin plugin) {
+        this.plugin = plugin;
+    }
+
     @Override
     public void run() {
+        val server = plugin.getServer();
 
+        try {
+            // Get MinecraftServer instance
+            val minecraftServerVersion = server.getClass().getPackage().getName().split("\\.")[3];
+            val minecraftServer = Class.forName("net.minecraft.server." + minecraftServerVersion + ".MinecraftServer");
+
+            // Get recentTps field
+            double[] onlinePlayers = (double[]) minecraftServer.getField("recentTps").get(minecraftServer);
+
+            server.getLogger().info("Current online players: " + Arrays.toString(onlinePlayers));
+        } catch (ClassNotFoundException | IllegalAccessException | NoSuchFieldException e) {
+            e.printStackTrace();
+        }
     }
 }

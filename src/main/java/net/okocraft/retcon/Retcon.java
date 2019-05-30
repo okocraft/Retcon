@@ -23,64 +23,84 @@ import java.util.logging.Logger;
 
 import lombok.val;
 
+import org.bukkit.Bukkit;
+import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import net.okocraft.retcon.command.CommandDispatcher;
-import net.okocraft.retcon.task.CountOnlineTask;
-import net.okocraft.retcon.task.GetTickPerSecondTask;
+import net.okocraft.retcon.listener.PlayerCommandPreprocess;
+import net.okocraft.retcon.util.Configuration;
+import net.okocraft.retcon.util.FileUtil;
 
-public class Retcon extends JavaPlugin  {
+/**
+ * Retcon. A server's statistics logger.
+ *
+ * @author AKANE AKAGI (akaregi)
+ */
+public class Retcon extends JavaPlugin {
     /**
-     * Instance of this plugin.
+     * Configuration.
      */
-    private final Retcon plugin;
-
-    /**
-     * Version information.
-     */
-    private final String version;
+    private final Configuration config;
 
     /**
      * Logger for this plugin.
      */
     private final Logger log;
 
-    public Retcon(Retcon plugin) {
-        this.version = getDescription().getVersion();
-        this.plugin = plugin;
-        this.log = getLogger();
+    /**
+     * Version information.
+     */
+    private final String version;
+
+    public Retcon() {
+        config = new Configuration(this);
+        log = getLogger();
+        version = getDescription().getVersion();
     }
 
     @Override
     public void onEnable() {
+        createResources();
+
         // Register command /retcon
-        Objects.requireNonNull(
-                getServer().getPluginCommand("retcon")).setExecutor(new CommandDispatcher()
-        );
+        Objects.requireNonNull(getCommand("retcon")).setExecutor(new CommandDispatcher());
 
         // Register tasks
-        val scheduler = getServer().getScheduler();
+        // new CountOnlinePlayerTask(plugin).runTaskTimerAsynchronously(this, 10L, 10L);
+        // new GetTickPerSecondTask(plugin).runTaskTimerAsynchronously(this, 10L, 10L);
 
-        //
-        // int scheduleSyncRepeatingTask​(@NotNull Plugin plugin, @NotNull Runnable task, long delay, long period)
-        //
-        // plugin - Plugin that owns the task
-        // task - Task to be executed
-        // delay - Delay in server ticks before executing first repeat
-        // period - Period in server ticks of the task
-        //
-        // FIXME: This is *sync* scheduling, it must be asynchronous.
-        //        For your information: Asynchronous task can't access Bukkit API.
-        //
-        scheduler.scheduleSyncRepeatingTask(plugin, new CountOnlineTask(),      10L, 20L);
-        scheduler.scheduleSyncRepeatingTask(plugin, new GetTickPerSecondTask(), 10L, 20L);
+        // Register events
+        val pm = Bukkit.getServer().getPluginManager();
+        pm.registerEvents(new PlayerCommandPreprocess(config), this);
 
         // GO GO GO
-        log.info("Retcon v." + version + " has been enabled.");
+        log.info("Enabled Retcon v" + version);
     }
 
     @Override
     public void onDisable() {
-        log.info("Retcon v." + version + " has been disabled.");
+        log.info("Disabled Retcon v" + version);
+
+        HandlerList.unregisterAll(this);
+    }
+
+    /**
+     * Create plugin's files.
+     */
+    private void createResources() {
+        saveDefaultConfig();
+
+        // plugins/Retcon/logs
+        FileUtil.createFolder(config.getLogFolder());
+
+        // plugins/Retcon/logs/command.log
+        FileUtil.createFile(config.getCommandLog());
+
+        // plugins/Retcon/logs/TPS.log
+        FileUtil.createFile(config.getTpsLog());
+
+        // plugins/Retcon/logs/OnlinePlayers.log
+        FileUtil.createFile(config.getOnlinePlayersLog());
     }
 }

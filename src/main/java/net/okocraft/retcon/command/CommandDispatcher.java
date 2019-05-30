@@ -25,6 +25,6 @@ import org.bukkit.command.CommandSender;
 public class CommandDispatcher implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] string) {
-        return false;
+        return true;
     }
 }
