@@ -19,7 +19,6 @@
 package net.okocraft.retcon.util;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import lombok.Getter;
 
@@ -41,11 +40,10 @@ public class Configuration {
     public Configuration(JavaPlugin plugin) {
         plugin.saveDefaultConfig();
 
-        rootFolder = Paths.get(plugin.getDataFolder().getAbsolutePath() + "/");
-
-        commandFolder = rootFolder.resolve("command/");
-        tpsFolder     = rootFolder.resolve("tps/");
-        onlineFolder  = rootFolder.resolve("online/");
+        rootFolder    = plugin.getDataFolder().toPath();
+        commandFolder = rootFolder.resolve("command");
+        tpsFolder     = rootFolder.resolve("tps");
+        onlineFolder  = rootFolder.resolve("online");
 
         // plugins/Retcon/command/
         FileUtil.createFolder(commandFolder);
