@@ -20,47 +20,40 @@ package net.okocraft.retcon.util;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Objects;
 
 import lombok.Getter;
-import lombok.val;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Configuration {
     @Getter
-    private final Path logFolder;
+    private final Path rootFolder;
 
     @Getter
-    private final Path commandLog;
+    private final Path commandFolder;
 
     @Getter
-    private final Path tpsLog;
+    private final Path tpsFolder;
 
     @Getter
-    private final Path onlinePlayersLog;
+    private final Path onlineFolder;
 
     public Configuration(JavaPlugin plugin) {
-        val config = plugin.getConfig();
+        plugin.saveDefaultConfig();
 
-        val logFolderConf = plugin.getDataFolder().getAbsolutePath() + "/logs/";
-        logFolder = Paths.get(
-                logFolderConf
-        );
+        rootFolder = Paths.get(plugin.getDataFolder().getAbsolutePath() + "/");
 
-        val commandLogConf = config.getString("files.command", "command.log");
-        commandLog = Paths.get(
-                logFolderConf + Objects.requireNonNull(commandLogConf)
-        );
+        commandFolder = rootFolder.resolve("command/");
+        tpsFolder     = rootFolder.resolve("tps/");
+        onlineFolder  = rootFolder.resolve("online/");
 
-        val tpsLogConf = config.getString("files.tps", "tps.log");
-        tpsLog = Paths.get(
-                logFolderConf + Objects.requireNonNull(tpsLogConf)
-        );
+        // plugins/Retcon/command/
+        FileUtil.createFolder(commandFolder);
 
-        val onlinePlayersConf = config.getString("files.onlinePlayers", "online.log");
-        onlinePlayersLog = Paths.get(
-                logFolderConf + Objects.requireNonNull(onlinePlayersConf)
-        );
+        // plugins/Retcon/tps/
+        FileUtil.createFolder(tpsFolder);
+
+        // plugins/Retcon/online/
+        FileUtil.createFolder(onlineFolder);
     }
 }

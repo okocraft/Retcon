@@ -18,7 +18,7 @@
 
 package net.okocraft.retcon;
 
-import java.util.Objects;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 import lombok.val;
@@ -30,7 +30,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import net.okocraft.retcon.command.CommandDispatcher;
 import net.okocraft.retcon.listener.PlayerCommandPreprocess;
 import net.okocraft.retcon.util.Configuration;
-import net.okocraft.retcon.util.FileUtil;
 
 /**
  * Retcon. A server's statistics logger.
@@ -54,17 +53,19 @@ public class Retcon extends JavaPlugin {
     private final String version;
 
     public Retcon() {
+        // Initialize configuration
         config = new Configuration(this);
+
+        // Misc
         log = getLogger();
         version = getDescription().getVersion();
     }
 
     @Override
     public void onEnable() {
-        createResources();
-
         // Register command /retcon
-        Objects.requireNonNull(getCommand("retcon")).setExecutor(new CommandDispatcher());
+        Optional.ofNullable(getCommand("retcon"))
+                .ifPresent(command -> command.setExecutor(new CommandDispatcher()));
 
         // Register tasks
         // new CountOnlinePlayerTask(plugin).runTaskTimerAsynchronously(this, 10L, 10L);
@@ -83,24 +84,5 @@ public class Retcon extends JavaPlugin {
         log.info("Disabled Retcon v" + version);
 
         HandlerList.unregisterAll(this);
-    }
-
-    /**
-     * Create plugin's files.
-     */
-    private void createResources() {
-        saveDefaultConfig();
-
-        // plugins/Retcon/logs
-        FileUtil.createFolder(config.getLogFolder());
-
-        // plugins/Retcon/logs/command.log
-        FileUtil.createFile(config.getCommandLog());
-
-        // plugins/Retcon/logs/TPS.log
-        FileUtil.createFile(config.getTpsLog());
-
-        // plugins/Retcon/logs/OnlinePlayers.log
-        FileUtil.createFile(config.getOnlinePlayersLog());
     }
 }

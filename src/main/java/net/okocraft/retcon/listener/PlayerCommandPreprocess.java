@@ -19,6 +19,7 @@
 package net.okocraft.retcon.listener;
 
 import java.net.InetSocketAddress;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -65,6 +66,8 @@ public class PlayerCommandPreprocess implements Listener {
                 command
         );
 
-        FileUtil.appendText(config.getCommandLog(), log);
+        val today = LocalDate.now();
+
+        FileUtil.appendText(config.getCommandFolder().resolve(today + ".log"), log);
     }
 }
