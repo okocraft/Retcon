@@ -59,7 +59,7 @@ public class UserBalanceUpdate implements Listener  {
 
         val log = String.format(
                 "[%s] %s %s >> %s",
-                Strings.padEnd(time.toString(), 28, ' '),
+                Strings.padEnd(time.toString(), 26, ' '),
                 Strings.padEnd(name, 16, ' '),
                 original,
                 current
