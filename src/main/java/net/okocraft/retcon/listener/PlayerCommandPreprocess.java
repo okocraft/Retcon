@@ -58,11 +58,11 @@ public class PlayerCommandPreprocess implements Listener {
 
         val log = String.format(
                 "[%s] %s %s %s %s %s" + System.getProperty("line.separator"),
-                time,
+                Strings.padEnd(time.toString(), 28, ' '),
                 Strings.padEnd(name, 16, ' '),
                 locale,
                 Strings.padEnd(address, 22, ' '),
-                Converter.locationToString(location),
+                Strings.padEnd(Converter.locationToString(location), 36, ' '),
                 command
         );
 
