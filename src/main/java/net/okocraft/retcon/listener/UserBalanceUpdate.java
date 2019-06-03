@@ -18,6 +18,7 @@
 
 package net.okocraft.retcon.listener;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import lombok.val;
@@ -49,25 +50,30 @@ public class UserBalanceUpdate implements Listener  {
      */
     @EventHandler
     public void onUserBalanceUpdate(UserBalanceUpdateEvent event) {
-        val time = LocalDateTime.now();
+        val time  = LocalDateTime.now();
+        val today = LocalDate.now();
 
-        // TODO: DECIDE WHICH NAME OR UUID IS LOGGED
         val player   = event.getPlayer();
-        val name     = Strings.padEnd(player.getName(), 16, ' ');
-        val original = event.getOldBalance();
-        val current  = event.getNewBalance();
+        val name     = player.getName();
+        val uuid     = player.getUniqueId();
+        // NOTE: IS IT CORRECT: BigDecimal#toPlainString()
+        val original = event.getOldBalance().toPlainString();
+        val current  = event.getNewBalance().toPlainString();
 
         val log = String.format(
-                "[%s] %s %s >> %s",
-                Strings.padEnd(time.toString(), 26, ' '),
-                Strings.padEnd(name, 16, ' '),
-                original,
+                "[%s] %s %s >> %s" + System.getProperty("line.separator"),
+                // PADDING 26, fixed length for ISO 8601.
+                Strings.padEnd(time.toString(), 26, '0'),
+                // PADDING 16, the longest player name.
+                Strings.padEnd(player.getName(), 16, ' '),
+                // PADDING 14, maximum expression for Java primitive double. See Essentials' configuration.
+                Strings.padEnd(original, 14, ' '),
                 current
         );
 
-        // Folder structure: plugins/Retcon/balance/<player>/<YYYY-MM-DDThh:mm:ss>.log
-        val userSpace = config.getBalanceFolder().resolve(name);
-        val balanceFile = userSpace.resolve(time + ".log");
+        // Folder structure: plugins/Retcon/balance/<player>_<UUID>/<YYYY-MM-DD>.log
+        val userSpace = config.getBalanceFolder().resolve(name + "_" + uuid);
+        val balanceFile = userSpace.resolve(today + ".log");
 
         FileUtil.createFolder(userSpace);
         FileUtil.appendText(balanceFile, log);
