@@ -34,6 +34,9 @@ import net.okocraft.retcon.util.Configuration;
 import net.okocraft.retcon.util.Converter;
 import net.okocraft.retcon.util.FileUtil;
 
+/**
+ * @author AKANE AKAGI (akaregi)
+ */
 public class PlayerCommandPreprocess implements Listener {
     private final Configuration config;
 
@@ -43,13 +46,14 @@ public class PlayerCommandPreprocess implements Listener {
 
     @EventHandler
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
-        val time     = LocalDateTime.now();
+        val time  = LocalDateTime.now();
+        val today = LocalDate.now();
 
-        val player   = event.getPlayer();
-        val name     = player.getName();
-        val locale   = player.getLocale();
+        val player = event.getPlayer();
+        val name   = player.getName();
+        val locale = player.getLocale();
 
-        val address  = Optional.ofNullable(event.getPlayer().getAddress())
+        val address = Optional.ofNullable(event.getPlayer().getAddress())
                 .map(InetSocketAddress::toString)
                 .orElse("unknown");
 
@@ -58,15 +62,13 @@ public class PlayerCommandPreprocess implements Listener {
 
         val log = String.format(
                 "[%s] %s %s %s %s %s" + System.getProperty("line.separator"),
-                Strings.padEnd(time.toString(), 26, ' '),
+                Strings.padEnd(time.toString(), 26, '0'),
                 Strings.padEnd(name, 16, ' '),
                 locale,
                 Strings.padEnd(address, 22, ' '),
                 Strings.padEnd(Converter.locationToString(location), 36, ' '),
                 command
         );
-
-        val today = LocalDate.now();
 
         FileUtil.appendText(config.getCommandFolder().resolve(today + ".log"), log);
     }
