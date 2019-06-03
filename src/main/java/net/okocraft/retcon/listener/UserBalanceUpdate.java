@@ -18,6 +18,7 @@
 
 package net.okocraft.retcon.listener;
 
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -57,8 +58,8 @@ public class UserBalanceUpdate implements Listener  {
         val name     = player.getName();
         val uuid     = player.getUniqueId();
         // NOTE: IS IT CORRECT: BigDecimal#toPlainString()
-        val original = event.getOldBalance().toPlainString();
-        val current  = event.getNewBalance().toPlainString();
+        val original = event.getOldBalance().setScale(0, RoundingMode.HALF_UP).toString();
+        val current  = event.getNewBalance().setScale(0, RoundingMode.HALF_UP).toString();
 
         val log = String.format(
                 "[%s] %s %s >> %s" + System.getProperty("line.separator"),
