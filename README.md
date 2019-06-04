@@ -1,4 +1,4 @@
-# Retcon
+![RETCON LOGO](https://i.imgur.com/MCm2uUm.png)
 
 Retcon. A server's statistics logger. 
 
@@ -9,7 +9,7 @@ Retcon. A server's statistics logger.
 * EssentialsX
 * *PATIENCE*
 
-## Targeting for logging
+## Target to logging
 
 * Command
 * Player's balance (from EssentialsX)
