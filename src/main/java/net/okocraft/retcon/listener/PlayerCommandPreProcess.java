@@ -18,13 +18,15 @@
 
 package net.okocraft.retcon.listener;
 
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import com.google.common.base.Strings;
 import lombok.val;
+
+import com.google.common.base.Strings;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -37,10 +39,10 @@ import net.okocraft.retcon.util.FileUtil;
 /**
  * @author AKANE AKAGI (akaregi)
  */
-public class PlayerCommandPreprocess implements Listener {
+public class PlayerCommandPreProcess implements Listener {
     private final Configuration config;
 
-    public PlayerCommandPreprocess(Configuration config) {
+    public PlayerCommandPreProcess(Configuration config) {
         this.config = config;
     }
 
@@ -54,7 +56,8 @@ public class PlayerCommandPreprocess implements Listener {
         val locale = player.getLocale();
 
         val address = Optional.ofNullable(event.getPlayer().getAddress())
-                .map(InetSocketAddress::toString)
+                .map(InetSocketAddress::getAddress)
+                .map(InetAddress::getHostAddress)
                 .orElse("unknown");
 
         val location = player.getLocation();

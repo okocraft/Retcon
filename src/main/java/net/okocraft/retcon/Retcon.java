@@ -28,7 +28,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import net.okocraft.retcon.command.CommandDispatcher;
-import net.okocraft.retcon.listener.PlayerCommandPreprocess;
+import net.okocraft.retcon.listener.PlayerCommandPreProcess;
 import net.okocraft.retcon.listener.UserBalanceUpdate;
 import net.okocraft.retcon.util.Configuration;
 
@@ -74,7 +74,7 @@ public class Retcon extends JavaPlugin {
 
         // Register events
         val pm = Bukkit.getServer().getPluginManager();
-        pm.registerEvents(new PlayerCommandPreprocess(config), this);
+        pm.registerEvents(new PlayerCommandPreProcess(config), this);
         pm.registerEvents(new UserBalanceUpdate(config), this);
 
         // GO GO GO
