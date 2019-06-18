@@ -54,5 +54,5 @@ buildNumber.properties
 .factorypath
 
 # IntelliJ IDEA
-.idea
-Retcon.iml
+.idea/**/workspace.xml
+.idea/**/tasks.xml
