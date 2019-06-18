@@ -47,7 +47,7 @@ public class PlayerCommandPreProcess implements Listener {
     }
 
     @EventHandler
-    public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
+    public void onPlayerCommandPreProcess(PlayerCommandPreprocessEvent event) {
         val time  = LocalDateTime.now();
         val today = LocalDate.now();
 
@@ -65,11 +65,17 @@ public class PlayerCommandPreProcess implements Listener {
 
         val log = String.format(
                 "[%s] %s %s %s %s %s" + System.getProperty("line.separator"),
+                // Time, like 2019-06-18T23:55:41.074126
                 Strings.padEnd(time.toString(), 26, '0'),
+                // ID, like Akikawa_
                 Strings.padEnd(name, 16, ' '),
+                // Locale, like es_es
                 locale,
-                Strings.padEnd(address, 22, ' '),
-                Strings.padEnd(Converter.locationToString(location), 36, ' '),
+                // IP Address, like 255.255.255.255
+                Strings.padEnd(address, 15, ' '),
+                // Location, like
+                Strings.padEnd(Converter.locationToString(location), 40, ' '),
+                // Command, like /genocide
                 command
         );
 

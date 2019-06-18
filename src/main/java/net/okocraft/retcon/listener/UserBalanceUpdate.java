@@ -57,7 +57,7 @@ public class UserBalanceUpdate implements Listener  {
         val player   = event.getPlayer();
         val name     = player.getName();
         val uuid     = player.getUniqueId();
-        // NOTE: IS IT CORRECT: BigDecimal#toPlainString()
+
         val original = event.getOldBalance().setScale(0, RoundingMode.HALF_UP).toString();
         val current  = event.getNewBalance().setScale(0, RoundingMode.HALF_UP).toString();
 
