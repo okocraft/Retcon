@@ -19,6 +19,7 @@
 package net.okocraft.retcon.listener;
 
 import java.math.RoundingMode;
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -58,18 +59,29 @@ public class UserBalanceUpdate implements Listener  {
         val name     = player.getName();
         val uuid     = player.getUniqueId();
 
-        val original = event.getOldBalance().setScale(0, RoundingMode.HALF_UP).toString();
-        val current  = event.getNewBalance().setScale(0, RoundingMode.HALF_UP).toString();
+        // Max: 10,000,000,000,000
+        Double original = event.getOldBalance().setScale(0, RoundingMode.HALF_UP).doubleValue();
+
+        // Max: 10,000,000,000,000
+        Double current = event.getNewBalance().setScale(0, RoundingMode.HALF_UP).doubleValue();
+
+        // Difference between current and original
+        Double diff = current - original;
+
+        val formatter = NumberFormat.getNumberInstance();
 
         val log = String.format(
-                "[%s] %s %s >> %s" + System.getProperty("line.separator"),
-                // PADDING 26, fixed length for ISO 8601.
+                "[%s] %s %s %s %s" + System.getProperty("line.separator"),
+                // TIME.        PADDING 26, fixed length for ISO 8601.
                 Strings.padEnd(time.toString(), 26, '0'),
-                // PADDING 16, the longest player name.
+                // PLAYER NAME. PADDING 16, the longest player name.
                 Strings.padEnd(player.getName(), 16, ' '),
-                // PADDING 14, maximum expression for Java primitive double. See Essentials' configuration.
-                Strings.padEnd(original, 14, ' '),
-                current
+                // ORIGINAL.    PADDING 18, maximum value of Essentials's economy system(+ separator).
+                Strings.padEnd(formatter.format(original), 18, ' '),
+                // CURRENT.     PADDING 18, maximum value of Essentials's economy system(+ separator).
+                Strings.padEnd(formatter.format(current), 18, ' '),
+                // DIFFERENCE.  PADDING __.
+                formatter.format(diff)
         );
 
         // Folder structure: plugins/Retcon/balance/<player>_<UUID>/<YYYY-MM-DD>.log
