@@ -24,6 +24,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Arrays;
 
+/**
+ * @author AKANE AKAGI (akaregi)
+ */
 public class GetTickPerSecondTask extends BukkitRunnable {
     private final Plugin plugin;
 

@@ -23,6 +23,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 
+/**
+ * @author AKANE AKAGI (akaregi)
+ */
 public class FileUtil {
     /**
      * Creates a folder. If a folder exists, does nothing.

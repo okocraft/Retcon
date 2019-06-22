@@ -24,6 +24,9 @@ import lombok.Getter;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+/**
+ * @author AKANE AKAGI (akaregi)
+ */
 public class Configuration {
     @Getter
     private final Path rootFolder;

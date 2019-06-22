@@ -83,8 +83,9 @@ public class Retcon extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        log.info("Disabled Retcon v" + version);
-
         HandlerList.unregisterAll(this);
+
+        // GOOD BYE.
+        log.info("Disabled Retcon v" + version);
     }
 }

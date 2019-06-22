@@ -25,6 +25,9 @@ import lombok.val;
 import org.bukkit.Location;
 import org.bukkit.World;
 
+/**
+ * @author AKANE AKAGI (akaregi)
+ */
 public class Converter {
     /**
      * Converts Bukkit's Location to pretty text. If location's world is unset, treats "unknown".
