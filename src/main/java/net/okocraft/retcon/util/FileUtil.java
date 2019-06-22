@@ -25,24 +25,6 @@ import java.nio.file.StandardOpenOption;
 
 public class FileUtil {
     /**
-     * Creates a file. If a file exists, does nothing.
-     *
-     * @param path File to be created
-     */
-    public static void createFile(Path path) {
-        try {
-            if (Files.exists(path)) {
-                return;
-            }
-
-            Files.createFile(path);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * Creates a folder. If a folder exists, does nothing.
      *
      * @param path Folder to be created
