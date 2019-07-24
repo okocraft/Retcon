@@ -37,5 +37,19 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.ess3:ReflectionProvider:2.16.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.bukkit:bukkit:1.12.2-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.ess3:FlattenedProvider:2.16.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.vexsoftware:nuvotifier-universal:2.4.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.vexsoftware:nuvotifier-bukkit:2.4.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.vexsoftware:nuvotifier-common:2.4.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: io.netty:netty-handler:4.1.16.Final" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: io.netty:netty-buffer:4.1.16.Final" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: io.netty:netty-common:4.1.16.Final" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: io.netty:netty-transport:4.1.16.Final" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: io.netty:netty-resolver:4.1.16.Final" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: io.netty:netty-codec:4.1.16.Final" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.slf4j:slf4j-api:1.7.25" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.slf4j:slf4j-jdk14:1.7.25" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.vexsoftware:nuvotifier-bungeecord:2.4.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.vexsoftware:nuvotifier-sponge:2.4.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.vexsoftware:nuvotifier-velocity:2.4.1" level="project" />
   </component>
 </module>

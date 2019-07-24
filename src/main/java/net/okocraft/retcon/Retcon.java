@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 
 import lombok.val;
 
+import net.okocraft.retcon.listener.VoteEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -33,7 +34,7 @@ import net.okocraft.retcon.listener.UserBalanceUpdate;
 import net.okocraft.retcon.util.Configuration;
 
 /**
- * Retcon. A server's statistics logger.
+ * Retcon. A Tool to track server's statistics.
  *
  * @author AKANE AKAGI (akaregi)
  */
@@ -74,8 +75,20 @@ public class Retcon extends JavaPlugin {
 
         // Register events
         val pm = Bukkit.getServer().getPluginManager();
+
         pm.registerEvents(new PlayerCommandPreProcess(config), this);
-        pm.registerEvents(new UserBalanceUpdate(config), this);
+
+        if (pm.isPluginEnabled("Essentials")) {
+            pm.registerEvents(new UserBalanceUpdate(config), this);
+
+            log.info("Essentials detected. Enabled relevant events.");
+        }
+
+        if (pm.isPluginEnabled("Votifier")) {
+            pm.registerEvents(new VoteEvent(config), this);
+
+            log.info("Votifier detected. Enabled relevant events.");
+        }
 
         // GO GO GO
         log.info("Enabled Retcon v" + version);

@@ -43,14 +43,19 @@ public class Configuration {
     @Getter
     private final Path balanceFolder;
 
+    @Getter
+    private final Path voteFolder;
+
     public Configuration(JavaPlugin plugin) {
         plugin.saveDefaultConfig();
 
         rootFolder    = plugin.getDataFolder().toPath();
+
         commandFolder = rootFolder.resolve("command");
         tpsFolder     = rootFolder.resolve("tps");
         onlineFolder  = rootFolder.resolve("online");
         balanceFolder = rootFolder.resolve("balance");
+        voteFolder    = rootFolder.resolve("votes");
 
         // plugins/Retcon/command/
         FileUtil.createFolder(commandFolder);
@@ -63,5 +68,8 @@ public class Configuration {
 
         // plugins/Retcon/balance/
         FileUtil.createFolder(balanceFolder);
+
+        // plugins/Retcon/votes/
+        FileUtil.createFolder(voteFolder);
     }
 }
