@@ -23,7 +23,6 @@ import java.util.logging.Logger;
 
 import lombok.val;
 
-import net.okocraft.retcon.listener.VoteEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -31,6 +30,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import net.okocraft.retcon.command.CommandDispatcher;
 import net.okocraft.retcon.listener.PlayerCommandPreProcess;
 import net.okocraft.retcon.listener.UserBalanceUpdate;
+import net.okocraft.retcon.listener.VoteEvent;
 import net.okocraft.retcon.util.Configuration;
 
 /**
@@ -81,13 +81,17 @@ public class Retcon extends JavaPlugin {
         if (pm.isPluginEnabled("Essentials")) {
             pm.registerEvents(new UserBalanceUpdate(config), this);
 
-            log.info("Essentials detected. Enabled relevant events.");
+            log.info("Essentials is present. Enabled relevant events.");
+        } else {
+            log.warning("Essentials is absent. Passing.");
         }
 
         if (pm.isPluginEnabled("Votifier")) {
             pm.registerEvents(new VoteEvent(config), this);
 
             log.info("Votifier detected. Enabled relevant events.");
+        } else {
+            log.warning("Votifier is absent. Passing.");
         }
 
         // GO GO GO
@@ -97,6 +101,7 @@ public class Retcon extends JavaPlugin {
     @Override
     public void onDisable() {
         HandlerList.unregisterAll(this);
+        log.info("Unregistered events.");
 
         // GOOD BYE.
         log.info("Disabled Retcon v" + version);
