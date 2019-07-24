@@ -1,16 +1,40 @@
+#
+# Required configuration
+#
+main: net.okocraft.retcon.Retcon
 name: ${project.artifactId}
 version: ${project.version}
+
+#
+# Recommended configuration
+#
 api-version: "1.13"
-main: net.okocraft.retcon.Retcon
+
+#
+# Optional configuration
+#
 author: akaregi
+description: "Retcon. A Tool to track server's statistics."
+website: "https://github.com/okocraft/VoteLogger"
+softdepend:
+  - "Essentials"
+  - "Votifier"
+
+#
+# Command
+#
 commands:
   retcon:
-    description: Base command for Retcon.
+    aliases: "rc"
+    description: A command to use Retcon.
     usage: /<command> help
     permission: retcon.admin
     permission-message: '§cYou do not have permission <permission>'
 
+#
+# Permission
+#
 permissions:
   retcon.admin:
-    description: Retcon's administrative permission.
+    description: A permission to manage Retcon.
     default: op
