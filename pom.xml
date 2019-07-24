@@ -9,9 +9,16 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
+        <!-- Essentials -->
         <repository>
             <id>ess-repo</id>
             <url>https://ci.ender.zone/plugin/repository/everything/</url>
+        </repository>
+        <!-- NuVotifier -->
+        <repository>
+            <id>parallelblock-public</id>
+            <name>ParallelBlock Public Repository</name>
+            <url>https://repo.parallelblock.com/repository/maven-public/</url>
         </repository>
     </repositories>
     <dependencies>
@@ -37,6 +44,12 @@
             <groupId>net.ess3</groupId>
             <artifactId>EssentialsX</artifactId>
             <version>2.16.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.vexsoftware</groupId>
+            <artifactId>nuvotifier-universal</artifactId>
+            <version>2.4.1</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
