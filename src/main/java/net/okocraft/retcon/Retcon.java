@@ -25,6 +25,7 @@ import lombok.val;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import net.okocraft.retcon.command.CommandDispatcher;
@@ -49,18 +50,9 @@ public class Retcon extends JavaPlugin {
      */
     private final Logger log;
 
-    /**
-     * Version information.
-     */
-    private final String version;
-
     public Retcon() {
-        // Initialize configuration
         config = new Configuration(this);
-
-        // Misc
-        log = getLogger();
-        version = getDescription().getVersion();
+        log    = getLogger();
     }
 
     @Override
@@ -78,32 +70,35 @@ public class Retcon extends JavaPlugin {
 
         pm.registerEvents(new PlayerCommandPreProcess(config), this);
 
-        if (pm.isPluginEnabled("Essentials")) {
-            pm.registerEvents(new UserBalanceUpdate(config), this);
-
-            log.info("Essentials is present. Enabled relevant events.");
-        } else {
-            log.warning("Essentials is absent. Passing.");
-        }
-
-        if (pm.isPluginEnabled("Votifier")) {
-            pm.registerEvents(new VoteEvent(config), this);
-
-            log.info("Votifier detected. Enabled relevant events.");
-        } else {
-            log.warning("Votifier is absent. Passing.");
-        }
+        registerDependEvent("Essentials", new UserBalanceUpdate(config));
+        registerDependEvent("Votifier", new VoteEvent(config));
 
         // GO GO GO
-        log.info("Enabled Retcon v" + version);
     }
 
     @Override
     public void onDisable() {
         HandlerList.unregisterAll(this);
         log.info("Unregistered events.");
+    }
 
-        // GOOD BYE.
-        log.info("Disabled Retcon v" + version);
+    /**
+     * 特定のプラグインに依存したイベントを登録する。
+     *
+     * @param plugin プラグイン名
+     * @param event  イベント
+     */
+    private void registerDependEvent(String plugin, Listener event) {
+        val pm = Bukkit.getServer().getPluginManager();
+
+        if (pm.isPluginEnabled(plugin)) {
+            pm.registerEvents(event, this);
+
+            log.info(String.format("%s detected. Enabled relevant events.", plugin));
+
+            return;
+        }
+
+        log.warning(String.format("%s is absent. Passing.", plugin));
     }
 }
