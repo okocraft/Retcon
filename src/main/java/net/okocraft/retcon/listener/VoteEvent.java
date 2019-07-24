@@ -21,6 +21,7 @@ package net.okocraft.retcon.listener;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.google.common.base.Strings;
 import lombok.val;
 
 import org.bukkit.event.EventHandler;
@@ -51,7 +52,12 @@ public class VoteEvent implements Listener {
         val service = vote.getServiceName();
         val player  = vote.getUsername();
 
-        val log = String.format("[%s] %s %s", time, service, player);
+        val log = String.format(
+                "[%s] %s %s",
+                Strings.padEnd(time.toString(), 26, '0'),
+                Strings.padEnd(player, 16, ' '),
+                service
+        );
 
         FileUtil.appendText(config.getVoteFolder().resolve(today + ".log"), log);
     }
