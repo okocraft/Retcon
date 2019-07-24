@@ -4,6 +4,9 @@
 main: net.okocraft.retcon.Retcon
 name: ${project.artifactId}
 version: ${project.version}
+softdepend:
+  - "Essentials"
+  - "Votifier"
 
 #
 # Recommended configuration
@@ -14,11 +17,8 @@ api-version: "1.13"
 # Optional configuration
 #
 author: akaregi
-description: "Retcon. A Tool to track server's statistics."
-website: "https://github.com/okocraft/VoteLogger"
-softdepend:
-  - "Essentials"
-  - "Votifier"
+description: ${project.description}
+website: ${project.url}
 
 #
 # Command
