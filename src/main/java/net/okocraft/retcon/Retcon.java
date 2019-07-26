@@ -23,16 +23,16 @@ import java.util.logging.Logger;
 
 import lombok.val;
 
+import net.okocraft.retcon.listener.*;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import net.okocraft.retcon.command.CommandDispatcher;
-import net.okocraft.retcon.listener.PlayerCommandPreProcess;
-import net.okocraft.retcon.listener.UserBalanceUpdate;
-import net.okocraft.retcon.listener.VoteEvent;
 import net.okocraft.retcon.util.Configuration;
+
+import javax.annotation.Nonnull;
 
 /**
  * Retcon. A Tool to track server's statistics.
@@ -68,10 +68,10 @@ public class Retcon extends JavaPlugin {
         // Register events
         val pm = Bukkit.getServer().getPluginManager();
 
-        pm.registerEvents(new PlayerCommandPreProcess(config), this);
-
-        registerDependEvent("Essentials", new UserBalanceUpdate(config));
-        registerDependEvent("Votifier", new VoteEvent(config));
+        registerEvents(new PlayerCommandPreProcess(config));
+        registerEvents("Essentials", new UserBalanceUpdate(config));
+        registerEvents("Votifier", new VoteEvent(config));
+        registerEvents("mcMMO", new mcMMOAdminChatEvent(config), new mcMMOPartyChatEvent(config));
 
         // GO GO GO
     }
@@ -83,16 +83,31 @@ public class Retcon extends JavaPlugin {
     }
 
     /**
+     * イベントを登録する。
+     *
+     * @param events イベント
+     */
+    private void registerEvents(@Nonnull Listener... events) {
+        val pm = Bukkit.getServer().getPluginManager();
+
+        for (Listener event: events) {
+            pm.registerEvents(event, this);
+        }
+    }
+
+    /**
      * 特定のプラグインに依存したイベントを登録する。
      *
      * @param plugin プラグイン名
-     * @param event  イベント
+     * @param events イベント
      */
-    private void registerDependEvent(String plugin, Listener event) {
+    private void registerEvents(@Nonnull String plugin, @Nonnull Listener... events) {
         val pm = Bukkit.getServer().getPluginManager();
 
         if (pm.isPluginEnabled(plugin)) {
-            pm.registerEvents(event, this);
+            for (Listener event: events) {
+                pm.registerEvents(event, this);
+            }
 
             log.info(String.format("%s detected. Enabled relevant events.", plugin));
 
