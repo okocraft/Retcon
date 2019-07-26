@@ -21,12 +21,11 @@ package net.okocraft.retcon;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-import lombok.val;
-
 import net.okocraft.retcon.listener.*;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import net.okocraft.retcon.command.CommandDispatcher;
@@ -50,9 +49,15 @@ public class Retcon extends JavaPlugin {
      */
     private final Logger log;
 
+    /**
+     * Plugin manager
+     */
+    private final PluginManager pluginManager;
+
     public Retcon() {
         config = new Configuration(this);
         log    = getLogger();
+        pluginManager = Bukkit.getServer().getPluginManager();
     }
 
     @Override
@@ -64,9 +69,6 @@ public class Retcon extends JavaPlugin {
         // Register tasks
         // new CountOnlinePlayerTask(plugin).runTaskTimerAsynchronously(this, 10L, 10L);
         // new GetTickPerSecondTask(plugin).runTaskTimerAsynchronously(this, 10L, 10L);
-
-        // Register events
-        val pm = Bukkit.getServer().getPluginManager();
 
         registerEvents(new PlayerCommandPreProcess(config));
         registerEvents("Essentials", new UserBalanceUpdate(config));
@@ -88,10 +90,8 @@ public class Retcon extends JavaPlugin {
      * @param events イベント
      */
     private void registerEvents(@Nonnull Listener... events) {
-        val pm = Bukkit.getServer().getPluginManager();
-
         for (Listener event: events) {
-            pm.registerEvents(event, this);
+            pluginManager.registerEvents(event, this);
         }
     }
 
@@ -102,11 +102,9 @@ public class Retcon extends JavaPlugin {
      * @param events イベント
      */
     private void registerEvents(@Nonnull String plugin, @Nonnull Listener... events) {
-        val pm = Bukkit.getServer().getPluginManager();
-
-        if (pm.isPluginEnabled(plugin)) {
+        if (pluginManager.isPluginEnabled(plugin)) {
             for (Listener event: events) {
-                pm.registerEvents(event, this);
+                pluginManager.registerEvents(event, this);
             }
 
             log.info(String.format("%s detected. Enabled relevant events.", plugin));
