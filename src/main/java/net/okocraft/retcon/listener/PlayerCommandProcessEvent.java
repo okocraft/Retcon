@@ -39,13 +39,18 @@ import net.okocraft.retcon.util.FileUtil;
 /**
  * @author AKANE AKAGI (akaregi)
  */
-public class PlayerCommandPreProcess implements Listener {
+public class PlayerCommandProcessEvent implements Listener {
     private final Configuration config;
 
-    public PlayerCommandPreProcess(Configuration config) {
+    public PlayerCommandProcessEvent(Configuration config) {
         this.config = config;
     }
 
+    /**
+     * プレイヤーがコマンドを実行したとき、それを記録する
+     *
+     * @param event イベント
+     */
     @EventHandler
     public void onPlayerCommandPreProcess(PlayerCommandPreprocessEvent event) {
         val time  = LocalDateTime.now();

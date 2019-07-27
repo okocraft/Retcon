@@ -38,17 +38,17 @@ import net.okocraft.retcon.util.FileUtil;
 /**
  * @author AKANE AKAGI (akaregi)
  */
-public class UserBalanceUpdate implements Listener  {
+public class PlayerBalanceUpdateEvent implements Listener  {
     private final Configuration config;
 
-    public UserBalanceUpdate(Configuration config) {
+    public PlayerBalanceUpdateEvent(Configuration config) {
         this.config = config;
     }
 
     /**
-     * Logs when a player's balance is changed
+     * プレイヤーの所持金が更新されたとき、変更前・後所持金および差分を記録する。
      *
-     * @param event UserBalanceUpdateEvent
+     * @param event イベント
      */
     @EventHandler
     public void onUserBalanceUpdate(UserBalanceUpdateEvent event) {

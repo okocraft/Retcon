@@ -42,6 +42,11 @@ public class VoteEvent implements Listener {
         this.config = config;
     }
 
+    /**
+     * 投票されたとき、それを記録する。
+     *
+     * @param event イベント
+     */
     @EventHandler
     public void onVote(VotifierEvent event) {
         val vote = event.getVote();

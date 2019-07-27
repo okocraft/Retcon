@@ -70,8 +70,8 @@ public class Retcon extends JavaPlugin {
         // new CountOnlinePlayerTask(plugin).runTaskTimerAsynchronously(this, 10L, 10L);
         // new GetTickPerSecondTask(plugin).runTaskTimerAsynchronously(this, 10L, 10L);
 
-        registerEvents(new PlayerCommandPreProcess(config));
-        registerEvents("Essentials", new UserBalanceUpdate(config));
+        registerEvents(new PlayerCommandProcessEvent(config));
+        registerEvents("Essentials", new PlayerBalanceUpdateEvent(config));
         registerEvents("Votifier", new VoteEvent(config));
         registerEvents("mcMMO", new mcMMOAdminChatEvent(config), new mcMMOPartyChatEvent(config));
 
