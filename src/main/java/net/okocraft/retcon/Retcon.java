@@ -107,7 +107,7 @@ public class Retcon extends JavaPlugin {
                 pluginManager.registerEvents(event, this);
             }
 
-            log.info(String.format("%s detected. Enabled relevant events.", plugin));
+            log.info(String.format("%s is present. Enabled relevant events.", plugin));
 
             return;
         }

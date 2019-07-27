@@ -58,7 +58,7 @@ public class mcMMOPartyChatEvent implements Listener {
         val message = event.getMessage();
 
         val log = String.format(
-                "[%s] %s %s",
+                "[%s] %s %s" + System.getProperty("line.separator"),
                 Strings.padEnd(time.toString(), 26, '0'),
                 Strings.padEnd(player, 16, ' '),
                 message
