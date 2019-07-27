@@ -22,12 +22,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.google.common.base.Strings;
+
 import lombok.val;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import com.vexsoftware.votifier.model.VotifierEvent;
+import com.gmail.nossr50.events.chat.McMMOAdminChatEvent;
 
 import net.okocraft.retcon.util.Configuration;
 import net.okocraft.retcon.util.FileUtil;
@@ -35,30 +36,36 @@ import net.okocraft.retcon.util.FileUtil;
 /**
  * @author AKANE AKAGI (akaregi)
  */
-public class VoteEvent implements Listener {
+public class mcMMOAdminChatEvent implements Listener {
     private final Configuration config;
 
-    public VoteEvent(Configuration config) {
+    public mcMMOAdminChatEvent(Configuration config) {
         this.config = config;
     }
 
+    /**
+     * mcMMO の AdminChat にチャットが投稿されたとき、ファイルに記録する
+     *
+     * @param event イベント
+     */
     @EventHandler
-    public void onVote(VotifierEvent event) {
-        val vote = event.getVote();
-
+    public void onAdminChat(McMMOAdminChatEvent event) {
         val time    = LocalDateTime.now();
         val today   = LocalDate.now();
 
-        val service = vote.getServiceName();
-        val player  = vote.getUsername();
+        val player  = event.getSender();
+        val message = event.getMessage();
 
         val log = String.format(
                 "[%s] %s %s" + System.getProperty("line.separator"),
                 Strings.padEnd(time.toString(), 26, '0'),
                 Strings.padEnd(player, 16, ' '),
-                service
+                message
         );
 
-        FileUtil.appendText(config.getVoteFolder().resolve(today + ".log"), log);
+        val userSpace = config.getMcMMOFolder().resolve("AdminChat");
+
+        FileUtil.createFolder(userSpace);
+        FileUtil.appendText(userSpace.resolve(today + ".log"), log);
     }
 }

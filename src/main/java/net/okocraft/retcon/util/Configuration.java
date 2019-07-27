@@ -46,6 +46,9 @@ public class Configuration {
     @Getter
     private final Path voteFolder;
 
+    @Getter
+    private final Path mcMMOFolder;
+
     public Configuration(JavaPlugin plugin) {
         plugin.saveDefaultConfig();
 
@@ -56,6 +59,7 @@ public class Configuration {
         onlineFolder  = rootFolder.resolve("online");
         balanceFolder = rootFolder.resolve("balance");
         voteFolder    = rootFolder.resolve("votes");
+        mcMMOFolder   = rootFolder.resolve("mcMMO");
 
         // plugins/Retcon/command/
         FileUtil.createFolder(commandFolder);
@@ -71,5 +75,8 @@ public class Configuration {
 
         // plugins/Retcon/votes/
         FileUtil.createFolder(voteFolder);
+
+        // plugins/Retcon/mcMMO/
+        FileUtil.createFolder(mcMMOFolder);
     }
 }

@@ -29,6 +29,12 @@
             <name>Ichbinjoe Public Repository</name>
             <url>https://repo.glaremasters.me/repository/public/</url>
         </repository>
+        <!-- mcMMO from CodeMC -->
+        <repository>
+            <id>codemc-repo</id>
+            <name>CodeMC Maven Repository</name>
+            <url>https://repo.codemc.org/repository/maven-public/</url>
+        </repository>
     </repositories>
     <dependencies>
         <dependency>
@@ -59,6 +65,12 @@
             <groupId>com.vexsoftware</groupId>
             <artifactId>nuvotifier-universal</artifactId>
             <version>2.5.3</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.gmail.nossr50.mcMMO</groupId>
+            <artifactId>mcMMO</artifactId>
+            <version>2.1.99</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
