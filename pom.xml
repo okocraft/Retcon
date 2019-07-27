@@ -3,8 +3,8 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.okocraft.retcon</groupId>
     <artifactId>Retcon</artifactId>
-    <version>1.3.0-SNAPSHOT</version>
-    <description>Retcon. A Tool to track server's statistics.</description>
+    <version>1.4.0-SNAPSHOT</version>
+    <description>Retcon. A tool to track server's statistics.</description>
     <url>https://github.com/okocraft/Retcon</url>
     <licenses>
         <license>
@@ -13,7 +13,21 @@
             <distribution>manual</distribution>
         </license>
     </licenses>
+    <developers>
+        <developer>
+            <id>akaregi</id>
+            <name>AKANE AKAGI</name>
+            <url>https://github.com/akaregi</url>
+            <organization>OKOCRAFT</organization>
+            <organizationUrl>https://github.com/okocraft</organizationUrl>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>Asia/Tokyo</timezone>
+        </developer>
+    </developers>
     <repositories>
+        <!-- Spigot -->
         <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
