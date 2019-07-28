@@ -1,31 +1,37 @@
 ![RETCON LOGO](https://i.imgur.com/MCm2uUm.png)
 
-Retcon. A server's statistics logger. 
+Retcon. A Tool to track server's statistics.
 
 ## Requirements
 
-* Java 8 or later
-* Spigot, Paper, or something great for MC Server
+* Java 8 or later. We recommend using latest JDK.
+* Spigot or Paper
+
+## Soft dependency
+
+Retcon uses those plugins to track plugin-relevant statistics. If some plugins are absent, Retcon still works.
+
 * EssentialsX
-* *PATIENCE*
+* NuVotifier
+* mcMMO
 
-## Target to logging
+## Things to track
 
-* Command
-* Player's balance (from EssentialsX)
+* Executed command by the player
+* Balance changes from *EssentialsX*
+* Vote from *NuVotifier*
+* Admin/Party Chat from *mcMMO*
 
 More features to be added.
 
 ## Command
 
-* No command implemented. There's a command `/retcon` for dummy.
+* There's a command `/retcon` as dummy.
 
 ## License
 
-* GPLv3.
-
 ```
-Retcon. A server's statistics logger. 
+Retcon. A Tool to track server's statistics.
 Copyright (C) 2019 AKANE AKAGI (akaregi)
 
 This program is free software: you can redistribute it and/or modify
