@@ -22,15 +22,10 @@ import lombok.val;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.Arrays;
-
-/**
- * @author AKANE AKAGI (akaregi)
- */
-public class GetTickPerSecondTask extends BukkitRunnable {
+public class CountPlayerTask extends BukkitRunnable {
     private final Plugin plugin;
 
-    public GetTickPerSecondTask(Plugin plugin) {
+    public CountPlayerTask(Plugin plugin) {
         this.plugin = plugin;
     }
 
@@ -38,17 +33,8 @@ public class GetTickPerSecondTask extends BukkitRunnable {
     public void run() {
         val server = plugin.getServer();
 
-        try {
-            // Get MinecraftServer instance
-            val minecraftServerVersion = server.getClass().getPackage().getName().split("\\.")[3];
-            val minecraftServer = Class.forName("net.minecraft.server." + minecraftServerVersion + ".MinecraftServer");
+        int onlinePlayers = server.getOnlinePlayers().size();
 
-            // Get recentTps field
-            double[] onlinePlayers = (double[]) minecraftServer.getField("recentTps").get(minecraftServer);
-
-            server.getLogger().info("Current online players: " + Arrays.toString(onlinePlayers));
-        } catch (ClassNotFoundException | IllegalAccessException | NoSuchFieldException e) {
-            e.printStackTrace();
-        }
+        plugin.getLogger().info("Current TPS: " + onlinePlayers);
     }
 }

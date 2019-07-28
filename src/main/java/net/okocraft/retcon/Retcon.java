@@ -21,6 +21,7 @@ package net.okocraft.retcon;
 import java.util.Optional;
 import java.util.logging.Logger;
 
+import lombok.Getter;
 import net.okocraft.retcon.listener.*;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
@@ -30,6 +31,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import net.okocraft.retcon.command.CommandDispatcher;
 import net.okocraft.retcon.util.Configuration;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import javax.annotation.Nonnull;
 
@@ -67,8 +69,8 @@ public class Retcon extends JavaPlugin {
                 .ifPresent(command -> command.setExecutor(new CommandDispatcher()));
 
         // Register tasks
-        // new CountOnlinePlayerTask(plugin).runTaskTimerAsynchronously(this, 10L, 10L);
-        // new GetTickPerSecondTask(plugin).runTaskTimerAsynchronously(this, 10L, 10L);
+        // new CountPlayerTask(plugin).runTaskTimerAsynchronously(this, 10L, 10L);
+        // new GetTpsTask(plugin).runTaskTimerAsynchronously(this, 10L, 10L);
 
         registerEvents(new PlayerCommandProcessEvent(config));
         registerEvents("Essentials", new PlayerBalanceUpdateEvent(config));
