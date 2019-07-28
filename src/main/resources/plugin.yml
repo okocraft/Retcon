@@ -7,11 +7,12 @@ version: ${project.version}
 softdepend:
   - "Essentials"
   - "Votifier"
+  - "mcMMO"
 
 #
 # Recommended configuration
 #
-api-version: "1.13"
+api-version: "1.14"
 
 #
 # Optional configuration
