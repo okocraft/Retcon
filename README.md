@@ -1,4 +1,5 @@
-![RETCON LOGO](https://i.imgur.com/MCm2uUm.png)
+[![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/made-with-java.svg)](https://forthebadge.com)
 
 Retcon. A Tool to track server's statistics.
 
