@@ -20,8 +20,10 @@ package net.okocraft.retcon;
 
 import java.util.Optional;
 import java.util.logging.Logger;
+import javax.annotation.Nonnull;
 
-import net.okocraft.retcon.listener.*;
+import lombok.Getter;
+
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -29,9 +31,10 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import net.okocraft.retcon.command.CommandDispatcher;
+import net.okocraft.retcon.listener.*;
+import net.okocraft.retcon.task.CountPlayerTask;
+import net.okocraft.retcon.task.GetTpsTask;
 import net.okocraft.retcon.util.Configuration;
-
-import javax.annotation.Nonnull;
 
 /**
  * Retcon. A Tool to track server's statistics.
@@ -40,22 +43,41 @@ import javax.annotation.Nonnull;
  */
 public class Retcon extends JavaPlugin {
     /**
-     * Configuration.
+     * このプラグインのインスタンス
      */
-    private final Configuration config;
+    private static Retcon plugin;
 
     /**
-     * Logger for this plugin.
+     * このプラグインの設定
+     */
+    // NOTE: config だと getConfig() と競合する
+    @Getter
+    private final Configuration plConfig;
+
+    /**
+     * このプラグインのロガー
      */
     private final Logger log;
 
     /**
-     * Plugin manager
+     * プラグインマネージャ
      */
     private final PluginManager pluginManager;
 
+    /**
+     * タスクを発火させるのに取る遅延時間（ティック単位）
+     */
+    // NOTE: 20L = 1秒
+    private static final long TASK_DELAY  = 20L;
+
+    /**
+     * タスクを発火させる周期（ティック単位）
+     */
+    // NOTE: 36000L = 30分
+    private static final long TASK_PERIOD = 36000L;
+
     public Retcon() {
-        config = new Configuration(this);
+        plConfig = new Configuration(this);
         log    = getLogger();
         pluginManager = Bukkit.getServer().getPluginManager();
     }
@@ -66,14 +88,13 @@ public class Retcon extends JavaPlugin {
         Optional.ofNullable(getCommand("retcon"))
                 .ifPresent(command -> command.setExecutor(new CommandDispatcher()));
 
-        // Register tasks
-        // new CountOnlinePlayerTask(plugin).runTaskTimerAsynchronously(this, 10L, 10L);
-        // new GetTickPerSecondTask(plugin).runTaskTimerAsynchronously(this, 10L, 10L);
+        new CountPlayerTask().runTaskTimer(this, TASK_DELAY, TASK_PERIOD);
+        new GetTpsTask().runTaskTimer(this, TASK_DELAY, TASK_PERIOD);
 
-        registerEvents(new PlayerCommandProcessEvent(config));
-        registerEvents("Essentials", new PlayerBalanceUpdateEvent(config));
-        registerEvents("Votifier", new VoteEvent(config));
-        registerEvents("mcMMO", new mcMMOAdminChatEvent(config), new mcMMOPartyChatEvent(config));
+        registerEvents(new PlayerCommandProcessEvent(plConfig));
+        registerEvents("Essentials", new PlayerBalanceUpdateEvent(plConfig));
+        registerEvents("Votifier", new VoteEvent(plConfig));
+        registerEvents("mcMMO", new mcMMOAdminChatEvent(plConfig), new mcMMOPartyChatEvent(plConfig));
 
         // GO GO GO
     }
@@ -113,5 +134,18 @@ public class Retcon extends JavaPlugin {
         }
 
         log.warning(String.format("%s is absent. Passing.", plugin));
+    }
+
+    /**
+     * このプラグインのインスタンスを返す。
+     *
+     * @return インスタンス
+     */
+    public static Retcon getInstance() {
+        if (plugin == null) {
+            plugin = (Retcon) Bukkit.getPluginManager().getPlugin("Retcon");
+        }
+
+        return plugin;
     }
 }

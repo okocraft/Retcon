@@ -18,23 +18,35 @@
 
 package net.okocraft.retcon.task;
 
+import java.time.LocalDate;
+
 import lombok.val;
-import org.bukkit.plugin.Plugin;
+
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class CountOnlinePlayerTask extends BukkitRunnable {
-    private final Plugin plugin;
+import net.okocraft.retcon.Retcon;
+import net.okocraft.retcon.util.FileUtil;
+import net.okocraft.retcon.util.TextUtil;
 
-    public CountOnlinePlayerTask(Plugin plugin) {
-        this.plugin = plugin;
-    }
-
+/**
+ * @author AKANE AKAGI (akaregi)
+ */
+public class CountPlayerTask extends BukkitRunnable {
     @Override
     public void run() {
-        val server = plugin.getServer();
+        val plugin = Retcon.getInstance();
+        val config = plugin.getPlConfig();
 
-        int onlinePlayers = server.getOnlinePlayers().size();
+        val today   = LocalDate.now();
 
-        plugin.getLogger().info("Current TPS: " + onlinePlayers);
+        val online = plugin.getServer().getOnlinePlayers().size();
+
+        val log = String.format(
+                "[%s] %s",
+                TextUtil.padTime(),
+                online
+        );
+
+        FileUtil.appendText(config.getOnlineFolder().resolve(today + ".log"), log);
     }
 }
