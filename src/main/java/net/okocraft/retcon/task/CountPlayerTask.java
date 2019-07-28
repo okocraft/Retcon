@@ -42,7 +42,7 @@ public class CountPlayerTask extends BukkitRunnable {
         val online = plugin.getServer().getOnlinePlayers().size();
 
         val log = String.format(
-                "[%s] %s",
+                "[%s] %s" + System.lineSeparator(),
                 TextUtil.padTime(),
                 online
         );
