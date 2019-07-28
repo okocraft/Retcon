@@ -18,37 +18,51 @@
 
 package net.okocraft.retcon.task;
 
+import java.lang.reflect.InvocationTargetException;
+import java.time.LocalDate;
+import java.util.Arrays;
+
 import lombok.val;
-import org.bukkit.plugin.Plugin;
+
+import org.bukkit.Server;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.Arrays;
+import net.okocraft.retcon.Retcon;
+import net.okocraft.retcon.util.FileUtil;
+import net.okocraft.retcon.util.TextUtil;
 
 /**
  * @author AKANE AKAGI (akaregi)
  */
 public class GetTpsTask extends BukkitRunnable {
-    private final Plugin plugin;
-
-    public GetTpsTask(Plugin plugin) {
-        this.plugin = plugin;
-    }
-
     @Override
     public void run() {
+        val plugin = Retcon.getInstance();
         val server = plugin.getServer();
+        val config = plugin.getPlConfig();
 
+        val today   = LocalDate.now();
+
+        val log = String.format(
+                "[%s] %s" + System.lineSeparator(),
+                TextUtil.padTime(),
+                Arrays.toString(getTPS(server))
+        );
+
+        FileUtil.appendText(config.getTpsFolder().resolve(today + ".log"), log);
+    }
+
+    private double[] getTPS(Server server) {
         try {
-            // Get MinecraftServer instance
-            val minecraftServerVersion = server.getClass().getPackage().getName().split("\\.")[3];
-            val minecraftServer = Class.forName("net.minecraft.server." + minecraftServerVersion + ".MinecraftServer");
+            val nmsVersion = server.getClass().getPackage().getName().split("\\.")[3];
+            val nmsServer = Class.forName("net.minecraft.server." + nmsVersion + ".MinecraftServer");
+            val instance = nmsServer.getMethod("getServer").invoke(null);
 
-            // Get recentTps field
-            double[] onlinePlayers = (double[]) minecraftServer.getField("recentTps").get(minecraftServer);
-
-            server.getLogger().info("Current online players: " + Arrays.toString(onlinePlayers));
-        } catch (ClassNotFoundException | IllegalAccessException | NoSuchFieldException e) {
+            return  (double[]) nmsServer.getField("recentTps").get(instance);
+        } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException | NoSuchFieldException | ClassNotFoundException e) {
             e.printStackTrace();
+
+            return new double[]{0, 0, 0};
         }
     }
 }
