@@ -29,19 +29,13 @@ import org.bukkit.event.Listener;
 
 import com.vexsoftware.votifier.model.VotifierEvent;
 
-import net.okocraft.retcon.util.Configuration;
+import net.okocraft.retcon.Retcon;
 import net.okocraft.retcon.util.FileUtil;
 
 /**
  * @author AKANE AKAGI (akaregi)
  */
 public class VoteEvent implements Listener {
-    private final Configuration config;
-
-    public VoteEvent(Configuration config) {
-        this.config = config;
-    }
-
     /**
      * 投票されたとき、それを記録する。
      *
@@ -49,6 +43,8 @@ public class VoteEvent implements Listener {
      */
     @EventHandler
     public void onVote(VotifierEvent event) {
+        val config = Retcon.getInstance().getPlConfig();
+
         val vote = event.getVote();
 
         val time    = LocalDateTime.now();

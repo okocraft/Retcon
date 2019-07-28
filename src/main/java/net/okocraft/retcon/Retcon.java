@@ -84,17 +84,16 @@ public class Retcon extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Register command /retcon
         Optional.ofNullable(getCommand("retcon"))
                 .ifPresent(command -> command.setExecutor(new CommandDispatcher()));
 
         new CountPlayerTask().runTaskTimer(this, TASK_DELAY, TASK_PERIOD);
         new GetTpsTask().runTaskTimer(this, TASK_DELAY, TASK_PERIOD);
 
-        registerEvents(new PlayerCommandProcessEvent(plConfig));
-        registerEvents("Essentials", new PlayerBalanceUpdateEvent(plConfig));
-        registerEvents("Votifier", new VoteEvent(plConfig));
-        registerEvents("mcMMO", new mcMMOAdminChatEvent(plConfig), new mcMMOPartyChatEvent(plConfig));
+        registerEvents(new PlayerCommandProcessEvent());
+        registerEvents("Essentials", new PlayerBalanceUpdateEvent());
+        registerEvents("Votifier", new VoteEvent());
+        registerEvents("mcMMO", new mcMMOAdminChatEvent(), new mcMMOPartyChatEvent());
 
         // GO GO GO
     }

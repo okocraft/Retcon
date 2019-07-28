@@ -32,19 +32,13 @@ import org.bukkit.event.Listener;
 
 import net.ess3.api.events.UserBalanceUpdateEvent;
 
-import net.okocraft.retcon.util.Configuration;
+import net.okocraft.retcon.Retcon;
 import net.okocraft.retcon.util.FileUtil;
 
 /**
  * @author AKANE AKAGI (akaregi)
  */
 public class PlayerBalanceUpdateEvent implements Listener  {
-    private final Configuration config;
-
-    public PlayerBalanceUpdateEvent(Configuration config) {
-        this.config = config;
-    }
-
     /**
      * プレイヤーの所持金が更新されたとき、変更前・後所持金および差分を記録する。
      *
@@ -52,6 +46,8 @@ public class PlayerBalanceUpdateEvent implements Listener  {
      */
     @EventHandler
     public void onUserBalanceUpdate(UserBalanceUpdateEvent event) {
+        val config = Retcon.getInstance().getPlConfig();
+
         val time  = LocalDateTime.now();
         val today = LocalDate.now();
 

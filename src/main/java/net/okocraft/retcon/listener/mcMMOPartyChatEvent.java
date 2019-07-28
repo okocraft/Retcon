@@ -30,19 +30,13 @@ import org.bukkit.event.Listener;
 
 import com.gmail.nossr50.events.chat.McMMOPartyChatEvent;
 
-import net.okocraft.retcon.util.Configuration;
+import net.okocraft.retcon.Retcon;
 import net.okocraft.retcon.util.FileUtil;
 
 /**
  * @author AKANE AKAGI (akaregi)
  */
 public class mcMMOPartyChatEvent implements Listener {
-    private final Configuration config;
-
-    public mcMMOPartyChatEvent(Configuration config) {
-        this.config = config;
-    }
-
     /**
      * mcMMO の AdminChat にチャットが投稿されたとき、ファイルに記録する
      *
@@ -50,6 +44,8 @@ public class mcMMOPartyChatEvent implements Listener {
      */
     @EventHandler
     public void onPartyChat(McMMOPartyChatEvent event) {
+        val config = Retcon.getInstance().getPlConfig();
+
         val time    = LocalDateTime.now();
         val today   = LocalDate.now();
 

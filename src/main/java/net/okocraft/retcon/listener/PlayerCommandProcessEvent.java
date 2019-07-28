@@ -32,7 +32,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-import net.okocraft.retcon.util.Configuration;
+import net.okocraft.retcon.Retcon;
 import net.okocraft.retcon.util.Converter;
 import net.okocraft.retcon.util.FileUtil;
 
@@ -40,12 +40,6 @@ import net.okocraft.retcon.util.FileUtil;
  * @author AKANE AKAGI (akaregi)
  */
 public class PlayerCommandProcessEvent implements Listener {
-    private final Configuration config;
-
-    public PlayerCommandProcessEvent(Configuration config) {
-        this.config = config;
-    }
-
     /**
      * プレイヤーがコマンドを実行したとき、それを記録する
      *
@@ -53,6 +47,8 @@ public class PlayerCommandProcessEvent implements Listener {
      */
     @EventHandler
     public void onPlayerCommandPreProcess(PlayerCommandPreprocessEvent event) {
+        val config = Retcon.getInstance().getPlConfig();
+
         val time  = LocalDateTime.now();
         val today = LocalDate.now();
 
