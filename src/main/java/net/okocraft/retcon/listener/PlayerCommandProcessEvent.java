@@ -21,7 +21,6 @@ package net.okocraft.retcon.listener;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 import lombok.val;
@@ -35,6 +34,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import net.okocraft.retcon.Retcon;
 import net.okocraft.retcon.util.Converter;
 import net.okocraft.retcon.util.FileUtil;
+import net.okocraft.retcon.util.TextUtil;
 
 /**
  * @author AKANE AKAGI (akaregi)
@@ -49,7 +49,6 @@ public class PlayerCommandProcessEvent implements Listener {
     public void onPlayerCommandPreProcess(PlayerCommandPreprocessEvent event) {
         val config = Retcon.getInstance().getPlConfig();
 
-        val time  = LocalDateTime.now();
         val today = LocalDate.now();
 
         val player = event.getPlayer();
@@ -67,9 +66,9 @@ public class PlayerCommandProcessEvent implements Listener {
         val log = String.format(
                 "[%s] %s %s %s %s %s" + System.getProperty("line.separator"),
                 // Time, like 2019-06-18T23:55:41.074126
-                Strings.padEnd(time.toString(), 26, '0'),
+                TextUtil.padTime(),
                 // ID, like Akikawa_
-                Strings.padEnd(name, 16, ' '),
+                TextUtil.padPlayerName(name),
                 // Locale, like es_es
                 locale,
                 // IP Address, like 255.255.255.255

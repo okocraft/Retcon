@@ -21,7 +21,6 @@ package net.okocraft.retcon.listener;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import lombok.val;
 
@@ -34,6 +33,7 @@ import net.ess3.api.events.UserBalanceUpdateEvent;
 
 import net.okocraft.retcon.Retcon;
 import net.okocraft.retcon.util.FileUtil;
+import net.okocraft.retcon.util.TextUtil;
 
 /**
  * @author AKANE AKAGI (akaregi)
@@ -48,7 +48,6 @@ public class PlayerBalanceUpdateEvent implements Listener  {
     public void onUserBalanceUpdate(UserBalanceUpdateEvent event) {
         val config = Retcon.getInstance().getPlConfig();
 
-        val time  = LocalDateTime.now();
         val today = LocalDate.now();
 
         val player   = event.getPlayer();
@@ -68,10 +67,8 @@ public class PlayerBalanceUpdateEvent implements Listener  {
 
         val log = String.format(
                 "[%s] %s %s %s %s" + System.getProperty("line.separator"),
-                // TIME.        PADDING 26, fixed length for ISO 8601.
-                Strings.padEnd(time.toString(), 26, '0'),
-                // PLAYER NAME. PADDING 16, the longest player name.
-                Strings.padEnd(player.getName(), 16, ' '),
+                TextUtil.padTime(),
+                TextUtil.padPlayerName(name),
                 // ORIGINAL.    PADDING 18, maximum value of Essentials's economy system(+ separator).
                 Strings.padEnd(formatter.format(original), 18, ' '),
                 // CURRENT.     PADDING 18, maximum value of Essentials's economy system(+ separator).
@@ -80,7 +77,7 @@ public class PlayerBalanceUpdateEvent implements Listener  {
                 formatter.format(diff)
         );
 
-        // Folder structure: plugins/Retcon/balance/<player>_<UUID>/<YYYY-MM-DD>.log
+        // Folder structure: plugins/Retcon/balance/<player>_<UUID>/<Time>.log
         val userSpace = config.getBalanceFolder().resolve(name + "_" + uuid);
         val balanceFile = userSpace.resolve(today + ".log");
 

@@ -19,9 +19,7 @@
 package net.okocraft.retcon.listener;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
-import com.google.common.base.Strings;
 import lombok.val;
 
 import org.bukkit.event.EventHandler;
@@ -31,6 +29,7 @@ import com.vexsoftware.votifier.model.VotifierEvent;
 
 import net.okocraft.retcon.Retcon;
 import net.okocraft.retcon.util.FileUtil;
+import net.okocraft.retcon.util.TextUtil;
 
 /**
  * @author AKANE AKAGI (akaregi)
@@ -45,18 +44,16 @@ public class VoteEvent implements Listener {
     public void onVote(VotifierEvent event) {
         val config = Retcon.getInstance().getPlConfig();
 
-        val vote = event.getVote();
-
-        val time    = LocalDateTime.now();
         val today   = LocalDate.now();
 
+        val vote = event.getVote();
         val service = vote.getServiceName();
-        val player  = vote.getUsername();
+        val name    = vote.getUsername();
 
         val log = String.format(
                 "[%s] %s %s" + System.getProperty("line.separator"),
-                Strings.padEnd(time.toString(), 26, '0'),
-                Strings.padEnd(player, 16, ' '),
+                TextUtil.padTime(),
+                TextUtil.padPlayerName(name),
                 service
         );
 

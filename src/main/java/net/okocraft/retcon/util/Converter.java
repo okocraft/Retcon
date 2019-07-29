@@ -30,10 +30,12 @@ import org.bukkit.World;
  */
 public class Converter {
     /**
-     * Converts Bukkit's Location to pretty text. If location's world is unset, treats "unknown".
+     * {@code Location} をテキスト表現（例：{@code (world, X:30, Y:20, Z:10)}）に変換する。
+     * ワールド名が空の場合は unknown が代わりに充てがわれる。
      *
-     * @param location Location.
-     * @return Pretty text, like (WORLD, X:xx.xxxxx, Y:yy.yyyyy, Z:zz.zzzzz)
+     * @param location {@code Location}
+     *
+     * @return 変換されたテキスト表現
      */
     public static String locationToString(Location location) {
         val X     = location.getBlockX();
