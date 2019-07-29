@@ -19,6 +19,8 @@
 package net.okocraft.retcon;
 
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 import javax.annotation.Nonnull;
 
@@ -65,6 +67,12 @@ public class Retcon extends JavaPlugin {
     private final PluginManager pluginManager;
 
     /**
+     * ExecutorService
+     */
+    @Getter
+    private static final ExecutorService executor = Executors.newCachedThreadPool();
+
+    /**
      * タスクを発火させるのに取る遅延時間（ティック単位）
      */
     // NOTE: 20L = 1秒
@@ -77,8 +85,8 @@ public class Retcon extends JavaPlugin {
     private static final long TASK_PERIOD = 36000L;
 
     public Retcon() {
-        plConfig = new Configuration(this);
-        log    = getLogger();
+        log           = getLogger();
+        plConfig      = new Configuration(this);
         pluginManager = Bukkit.getServer().getPluginManager();
     }
 
@@ -102,6 +110,8 @@ public class Retcon extends JavaPlugin {
     public void onDisable() {
         HandlerList.unregisterAll(this);
         log.info("Unregistered events.");
+
+        executor.shutdown();
     }
 
     /**

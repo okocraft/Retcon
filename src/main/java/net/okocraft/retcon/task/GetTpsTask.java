@@ -49,7 +49,7 @@ public class GetTpsTask extends BukkitRunnable {
                 Arrays.toString(getTPS(server))
         );
 
-        FileUtil.appendText(config.getTpsFolder().resolve(today + ".log"), log);
+        Retcon.getExecutor().submit(FileUtil.getAppendText(config.getTpsFolder().resolve(today + ".log"), log));
     }
 
     private double[] getTPS(Server server) {

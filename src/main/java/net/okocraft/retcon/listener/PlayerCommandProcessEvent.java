@@ -79,6 +79,6 @@ public class PlayerCommandProcessEvent implements Listener {
                 command
         );
 
-        FileUtil.appendText(config.getCommandFolder().resolve(today + ".log"), log);
+        Retcon.getExecutor().submit(FileUtil.getAppendText(config.getCommandFolder().resolve(today + ".log"), log));
     }
 }

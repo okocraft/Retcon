@@ -82,6 +82,6 @@ public class PlayerBalanceUpdateEvent implements Listener  {
         val balanceFile = userSpace.resolve(today + ".log");
 
         FileUtil.createFolder(userSpace);
-        FileUtil.appendText(balanceFile, log);
+        Retcon.getExecutor().submit(FileUtil.getAppendText(balanceFile, log));
     }
 }
