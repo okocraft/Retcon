@@ -47,6 +47,6 @@ public class CountPlayerTask extends BukkitRunnable {
                 online
         );
 
-        FileUtil.appendText(config.getOnlineFolder().resolve(today + ".log"), log);
+        Retcon.getExecutor().submit(FileUtil.getAppendText(config.getOnlineFolder().resolve(today + ".log"), log));
     }
 }

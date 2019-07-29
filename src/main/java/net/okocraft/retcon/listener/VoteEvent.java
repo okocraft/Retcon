@@ -57,6 +57,6 @@ public class VoteEvent implements Listener {
                 service
         );
 
-        FileUtil.appendText(config.getVoteFolder().resolve(today + ".log"), log);
+        Retcon.getExecutor().submit(FileUtil.getAppendText(config.getVoteFolder().resolve(today + ".log"), log));
     }
 }

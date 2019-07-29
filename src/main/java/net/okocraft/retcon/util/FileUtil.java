@@ -47,21 +47,25 @@ public class FileUtil {
     }
 
     /**
-     * Appends text to the target file.
+     * ファイルにテキストを挿入する処理を {@code Runnable} で返す。
      *
-     * @param target Target file
-     * @param text   Text to append (NOTE: only 1 line expected)
+     * @param target 宛先ファイル
+     * @param text   テキスト
+     *
+     * @return Runnable
      */
-    public static void appendText(Path target, String text) {
-        try {
-            Files.write(
-                    target,
-                    text.getBytes(),
-                    StandardOpenOption.CREATE,
-                    StandardOpenOption.APPEND
-            );
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public static Runnable getAppendText(Path target, String text) {
+        return () -> {
+            try {
+                Files.write(
+                        target,
+                        text.getBytes(),
+                        StandardOpenOption.CREATE,
+                        StandardOpenOption.APPEND
+                );
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        };
     }
 }

@@ -59,6 +59,6 @@ public class mcMMOAdminChatEvent implements Listener {
         val userSpace = config.getMcMMOFolder().resolve("AdminChat");
 
         FileUtil.createFolder(userSpace);
-        FileUtil.appendText(userSpace.resolve(today + ".log"), log);
+        Retcon.getExecutor().submit(FileUtil.getAppendText(userSpace.resolve(today + ".log"), log));
     }
 }

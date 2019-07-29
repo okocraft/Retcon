@@ -66,6 +66,6 @@ public class mcMMOPartyChatEvent implements Listener {
         FileUtil.createFolder(channelSpace);
 
         // retcon/mcMMO/PartyChat/<Channel>/<Time>.log
-        FileUtil.appendText(channelSpace.resolve(today + ".log"), log);
+        Retcon.getExecutor().submit(FileUtil.getAppendText(channelSpace.resolve(today + ".log"), log));
     }
 }
